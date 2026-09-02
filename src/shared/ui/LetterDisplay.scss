@@ -1,0 +1,18 @@
+.letter-display {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ff7a00;
+  border-radius: 1.5rem;
+  min-height: 0;
+
+  &__letter {
+    color: #000;
+    font-weight: 900;
+    line-height: 1;
+    font-size: min(45vw, 45vh);
+    text-shadow: 0 0 0.05em #000;
+  }
+}
