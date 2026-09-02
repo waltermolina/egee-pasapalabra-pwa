@@ -10,6 +10,8 @@ export interface UseRouletteResult {
   letter: string | null;
   /** Starts (or restarts) a spin cycle. No-op while already spinning. */
   spin: () => void;
+  /** Cancels the current cycle and returns to the initial state. */
+  clear: () => void;
 }
 
 const SHUFFLE_INTERVAL_MS = 50;
@@ -45,6 +47,13 @@ export function useRoulette(): UseRouletteResult {
 
   useEffect(() => clearTimers, [clearTimers]);
 
+  const clear = useCallback(() => {
+    clearTimers();
+    isSpinningRef.current = false;
+    setLetter(null);
+    setStatus('idle');
+  }, [clearTimers]);
+
   const spin = useCallback(() => {
     if (isSpinningRef.current) {
       return;
@@ -68,5 +77,5 @@ export function useRoulette(): UseRouletteResult {
     }, randomSpinDuration());
   }, [clearTimers]);
 
-  return { status, letter, spin };
+  return { status, letter, spin, clear };
 }

@@ -11,10 +11,10 @@ describe('Roulette component', () => {
     vi.useRealTimers();
   });
 
-  it('renders the waiting screen with an empty letter block and the spin button', () => {
+  it('renders the waiting screen with the Somos EGEE logo and the spin button', () => {
     render(<Roulette />);
     expect(screen.getByRole('button', { name: /girar ruleta/i })).toBeInTheDocument();
-    expect(screen.getByRole('status')).toBeEmptyDOMElement();
+    expect(screen.getByRole('img', { name: /somos egee/i })).toBeInTheDocument();
   });
 
   it('shows a single letter and re-enables the button after spinning', () => {
@@ -30,5 +30,19 @@ describe('Roulette component', () => {
 
     expect(button).not.toBeDisabled();
     expect(screen.getByRole('status')).not.toBeEmptyDOMElement();
+  });
+
+  it('returns to the initial logo after clearing the selected letter', () => {
+    render(<Roulette />);
+    fireEvent.click(screen.getByRole('button', { name: /girar ruleta/i }));
+
+    act(() => {
+      vi.advanceTimersByTime(3000);
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: /limpiar ruleta/i }));
+
+    expect(screen.getByRole('img', { name: /somos egee/i })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /limpiar ruleta/i })).not.toBeInTheDocument();
   });
 });

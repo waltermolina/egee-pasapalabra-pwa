@@ -5,11 +5,11 @@ import './Roulette.scss';
 
 /** Pasapalabra-style letter roulette: spins through A-Z + Ñ and stops on a random letter. */
 export function Roulette() {
-  const { status, letter, spin } = useRoulette();
+  const { status, letter, spin, clear } = useRoulette();
 
   return (
     <div className="roulette">
-      <LetterDisplay letter={letter} />
+      <LetterDisplay letter={letter} onClear={status === 'result' ? clear : undefined} />
       <Button onClick={spin} disabled={status === 'spinning'}>
         GIRAR RULETA
       </Button>

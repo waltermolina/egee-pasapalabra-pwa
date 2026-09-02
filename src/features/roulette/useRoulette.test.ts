@@ -69,4 +69,20 @@ describe('useRoulette', () => {
     });
     expect(result.current.status).toBe('spinning');
   });
+
+  it('clears the selected letter and returns to idle', () => {
+    const { result } = renderHook(() => useRoulette());
+
+    act(() => {
+      result.current.spin();
+      vi.advanceTimersByTime(3000);
+    });
+
+    act(() => {
+      result.current.clear();
+    });
+
+    expect(result.current.status).toBe('idle');
+    expect(result.current.letter).toBeNull();
+  });
 });
